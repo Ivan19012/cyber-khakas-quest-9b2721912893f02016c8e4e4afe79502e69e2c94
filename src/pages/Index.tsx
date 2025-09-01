@@ -36,12 +36,26 @@ const Index = () => {
           </div>
 
           <div className="flex gap-3">
-            <Link to="/auth">
-              <Button className={purpleButtonClass}>Войти</Button>
-            </Link>
-            <Link to="/auth">
-              <Button className={purpleButtonClass}>Регистрация</Button>
-            </Link>
+            {/* Войти — ведёт на внешний Moodle login */}
+            <Button
+              className={purpleButtonClass}
+              type="button"
+              onClick={() =>
+                (window.location.href = "https://hackstf.ru/lms/login/index.php")
+              }
+            >
+            </Button>
+
+            {/* Регистрация — ведёт на внешний Moodle signup */}
+            <Button
+              className={purpleButtonClass}
+              type="button"
+              onClick={() =>
+                (window.location.href =
+                  "https://hackstf.ru/lms/login/signup.php")
+              }
+            >
+            </Button>
           </div>
         </nav>
       </header>
