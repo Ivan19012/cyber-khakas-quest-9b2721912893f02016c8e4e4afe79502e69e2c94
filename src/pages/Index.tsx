@@ -44,6 +44,7 @@ const Index = () => {
                 (window.location.href = "https://hackstf.ru/lms/login/index.php")
               }
             >
+              Войти
             </Button>
 
             {/* Регистрация — ведёт на внешний Moodle signup */}
@@ -55,6 +56,7 @@ const Index = () => {
                   "https://hackstf.ru/lms/login/signup.php")
               }
             >
+              Регистрация
             </Button>
           </div>
         </nav>
@@ -76,14 +78,6 @@ const Index = () => {
                 <p className="max-w-xl text-white/80 text-lg sm:text-xl mt-4">
                   Олимпиадная платформа по информационной безопасности «Hack CTF». Участвуй в онлайн и очных этапах, проходи верификацию через Moodle и прокачивай скиллы.
                 </p>
-                <div className="flex flex-wrap items-center gap-3 mt-6">
-                  <Link to="/auth">
-                    <Button size="lg" className={purpleButtonClass}>Начать обучение</Button>
-                  </Link>
-                  <Link to="/about">
-                    <Button size="lg" className={purpleButtonClass}>О проекте</Button>
-                  </Link>
-                  </div>
               </div>
 
               <div className="flex justify-center md:justify-end px-4 md:px-0">
@@ -254,7 +248,7 @@ const Index = () => {
           role: "Лидер проекта, спикер, разработчик материалов"
         },
         {
-          img: "/assets/photo1.jpg",
+          img: "/assets/aly.jpg",
           name: "Ильина Алевтина",
           role: "Разработчик продуктов проекта"
         },
@@ -286,7 +280,84 @@ const Index = () => {
     </div>
   </div>
 </section>
-      </main>
+{/* Футер */}
+<footer className="bg-gradient-to-r from-purple-900 via-black to-purple-950 py-16 text-white">
+  {/* Нижняя полоса */}
+    <div className="border-t border-purple-700 mt-8 pt-6 text-center text-white/80 text-sm"></div>
+  <div className="container mx-auto px-4">
+    <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+      {/* Колонка 1: О проекте */}
+      <div>
+        <h3 className="font-bold text-white text-lg mb-4">Hack CTF</h3>
+        <p className="text-white/80 text-sm leading-relaxed">
+          Олимпиадная платформа по информационной безопасности для школьников и студентов.
+          Проходи верификацию через Moodle, участвуй в CTF-соревнованиях и повышай свой уровень знаний.
+        </p>
+      </div>
+
+      {/* Колонка 2: Разделы */}
+      <div>
+        <h3 className="font-bold text-white text-lg mb-4">Услуги</h3>
+        <div className="text-white/80 text-sm space-y-2">
+          <p>
+            <span className="font-medium">Защита IP (IP Protection)</span> 
+          </p>
+          <p>
+            <span className="font-medium">Видимость данных (Data Visibility)</span>
+          </p>
+          <p>
+            <span className="font-medium">Мониторинг активности пользователей</span> 
+          </p>
+          <p>
+            <span className="font-medium">Реагирование на инциденты</span>
+          </p>
+          <p>
+            <span className="font-medium">Кибербезопасность и обучение</span>
+          </p>
+          <p>
+            <span className="font-medium">Анализ сетевого трафика (Big Data)</span>
+          </p>
+        </div>
+      </div>
+
+      {/* Колонка 3: Контакты */}
+      <div>
+        <h3 className="font-bold text-white text-lg mb-4">Контакты</h3>
+        <div className="text-white/80 text-sm space-y-2">
+          <p>
+            <span className="font-medium">Адрес:</span> 658 Lane Drive st Riverside, California
+          </p>
+          <p>
+            <span className="font-medium">Email:</span> demo-mail@example.com
+          </p>
+          <p>
+            <span className="font-medium">Телефон:</span> +(880) 123 675 2893
+          </p>
+          <p>
+            <span className="font-medium">Fax:</span> +(880) 123 675 2893
+          </p>
+        </div>
+      </div>
+
+      {/* Колонка 4: Регистрация */}
+      <div>
+        <h3 className="font-bold text-white text-lg mb-4">Присоединяйтесь</h3>
+        <p className="text-white/80 text-sm mb-4">
+          Зарегистрируйтесь для участия в CTF-соревнованиях и получения доступа к образовательным материалам
+        </p>
+        <div className="flex flex-col space-y-2">
+                  </div>
+      </div>
+    </div>
+
+    {/* Нижняя полоса */}
+    <div className="border-t border-purple-700 mt-8 pt-6 text-center text-white/80 text-sm">
+  <p>© {new Date().getFullYear()} Hack CTF. Все права защищены.</p>
+</div>
+  </div>
+</footer>
+</main>
+      
     </>
   );
 };
