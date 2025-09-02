@@ -1,3 +1,4 @@
+import React from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
@@ -5,10 +6,21 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import NeonNetwork from "@/components/visual/NeonNetwork";
 
-const Index = () => {
+const Index: React.FC = () => {
   const [networkSeed, setNetworkSeed] = useState(0);
 
   const purpleButtonClass = "bg-purple-600 text-white hover:bg-purple-500";
+
+  const scrollToId = (id: string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else {
+      // Fallback: change hash
+      window.location.hash = `#${id}`;
+    }
+  };
 
   return (
     <>
@@ -29,10 +41,11 @@ const Index = () => {
           </Link>
 
           <div className="flex gap-6">
-            <Link to="/theory" className="text-white hover:text-purple-400">Теория</Link>
-            <Link to="/ctf" className="text-white hover:text-purple-400">CTF</Link>
-            <Link to="/about" className="text-white hover:text-purple-400">О проекте</Link>
-            <Link to="/team" className="text-white hover:text-purple-400">Команда</Link>
+            {/* Ведём на блоки на той же странице */}
+            <a href="#theory" onClick={scrollToId("theory")} className="text-white hover:text-purple-400">Теория</a>
+            <a href="#ctf" onClick={scrollToId("ctf")} className="text-white hover:text-purple-400">CTF</a>
+            <a href="#about" onClick={scrollToId("about")} className="text-white hover:text-purple-400">О проекте</a>
+            <a href="#team" onClick={scrollToId("team")} className="text-white hover:text-purple-400">Команда</a>
           </div>
 
           <div className="flex gap-3">
@@ -63,8 +76,8 @@ const Index = () => {
       </header>
 
       <main>
-        {/* Герой-блок */}
-        <section className="relative overflow-hidden bg-gradient-to-r from-purple-900 via-black to-purple-950">
+        {/* Герой-блок (CTF) */}
+        <section id="ctf" className="relative overflow-hidden bg-gradient-to-r from-purple-900 via-black to-purple-950">
           <NeonNetwork className="absolute inset-0 -z-10" seed={networkSeed} color="purple" />
           <div
             className="container mx-auto min-h-[70vh] flex items-center"
@@ -81,29 +94,29 @@ const Index = () => {
               </div>
 
               <div className="flex justify-center md:justify-end px-4 md:px-0">
-  <img
-    src="/assets/hero-image.png"
-    alt="Hack CTF — олимпиадная платформа"
-    className="w-full max-w-xl md:max-w-2xl hover:scale-105 transition-transform duration-300 object-cover"
-  />
+                <img
+                  src="/assets/hero-image.png"
+                  alt="Hack CTF — олимпиадная платформа"
+                  className="w-full max-w-xl md:max-w-2xl hover:scale-105 transition-transform duration-300 object-cover"
+                />
               </div>
             </div>
           </div>
         </section>
 
-        {/* Блок о мобильном приложении */}
+        {/* Блок о мобильном приложении — теперь id="theory" (ссылка "Теория" ведёт сюда) */}
         <section
-          id="about"
+          id="theory"
           className="relative overflow-hidden bg-gradient-to-r from-purple-900 via-black to-purple-950 py-16"
         >
           <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
             <div className="flex justify-center md:justify-start px-4 md:px-0">
                <img
-    src="/assets/about-img.png"
-    alt="О приложении Hack CTF"
-    className="w-full max-w-sm md:max-w-md hover:scale-105 transition-transform duration-300 object-cover"
-  />
-</div>
+                 src="/assets/about-img.png"
+                 alt="О приложении Hack CTF"
+                 className="w-full max-w-sm md:max-w-md hover:scale-105 transition-transform duration-300 object-cover"
+               />
+            </div>
 
             <div className="px-4 md:px-6 text-white">
               <h2 className="font-display text-3xl sm:text-4xl font-extrabold mb-4 leading-snug">
@@ -168,196 +181,198 @@ const Index = () => {
         </section>
 
         {/* Анализатор сетевого трафика */}
-<section className="bg-gradient-to-r from-purple-900 via-black to-purple-950 py-16 text-white">
-  <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center px-4 md:px-6">
-    {/* Текстовый блок */}
-    <div className="break-words max-w-full">
-      <h2 className="font-display text-3xl sm:text-4xl font-extrabold mb-6 leading-snug">
-        Анализатор сетевого трафика для больших данных
-      </h2>
-      <p className="text-white/80 text-lg mb-4 leading-relaxed">
-        Моделирование атак, отработка навыков на реальных данных и анализ больших дампов сетевого трафика.
-        Модель ИИ для автоматического выявления опасного трафика. Программная платформа для комплексного
-        анализа Big Data сетевого трафика (pcap/csv) в реальном времени и ретроспективе, которая объединяет:
-      </p>
-      <ul className="list-disc list-inside text-white/80 space-y-2 text-lg">
-        <li>Распределенную обработку Big Data (PySpark) — масштабируемость от МБ до ГБ+</li>
-        <li>Продвинутый ИИ для детекции угроз (LSTM, автоэнкодеры)</li>
-        <li>Потоковую аналитику (Kafka/Spark Streaming)</li>
-        <li>Глубокий протокольный декодинг (уровень Wireshark)</li>
-        <li>Интерактивную визуализацию (GUI)</li>
-      </ul>
-    </div>
+        <section className="bg-gradient-to-r from-purple-900 via-black to-purple-950 py-16 text-white">
+          <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center px-4 md:px-6">
+            {/* Текстовый блок */}
+            <div className="break-words max-w-full">
+              <h2 className="font-display text-3xl sm:text-4xl font-extrabold mb-6 leading-snug">
+                Анализатор сетевого трафика для больших данных
+              </h2>
+              <p className="text-white/80 text-lg mb-4 leading-relaxed">
+                Моделирование атак, отработка навыков на реальных данных и анализ больших дампов сетевого трафика.
+                Модель ИИ для автоматического выявления опасного трафика. Программная платформа для комплексного
+                анализа Big Data сетевого трафика (pcap/csv) в реальном времени и ретроспективе, которая объединяет:
+              </p>
+              <ul className="list-disc list-inside text-white/80 space-y-2 text-lg">
+                <li>Распределенную обработку Big Data (PySpark) — масштабируемость от МБ до ГБ+</li>
+                <li>Продвинутый ИИ для детекции угроз (LSTM, автоэнкодеры)</li>
+                <li>Потоковую аналитику (Kafka/Spark Streaming)</li>
+                <li>Глубокий протокольный декодинг (уровень Wireshark)</li>
+                <li>Интерактивную визуализацию (GUI)</li>
+              </ul>
+            </div>
 
-    {/* Картинка */}
-    <div className="flex justify-center md:justify-start md:ml-12">
-      <img
-        src="/assets/image-6.png"
-        alt="Анализатор сетевого трафика"
-        className="w-full max-w-xl rounded-2xl shadow-2xl hover:scale-105 transition-transform duration-300 object-contain"
-      />
-    </div>
-  </div>
-</section>
-{/* Единая экосистема и социальная сеть */}
-<section className="bg-gradient-to-r from-purple-900 via-black to-purple-950 py-16 text-white">
-  <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center px-4 md:px-6">
-    {/* Картинка слева */}
-    <div className="flex justify-center md:justify-start">
-      <img
-        src="/assets/testi-people.png"
-        alt="Социальная сеть Hack CTF"
-        className="w-5/6 md:w-4/5 hover:scale-105 transition-transform duration-300 object-contain"
-      />
-    </div>
-
-    {/* Текстовый блок справа */}
-    <div className="break-words max-w-full">
-      <h2 className="font-display text-3xl sm:text-4xl font-extrabold mb-6 leading-snug">
-        Единая экосистема и кроссплатформенность
-      </h2>
-      <p className="text-white/80 text-lg mb-4 leading-relaxed">
-        Наше мобильное приложение интегрирует собственную социальную сеть, где студенты и школьники могут общаться, обсуждать задания и делиться опытом. 
-        Всё это происходит прямо внутри приложения, не отвлекаясь от процесса обучения и прохождения CTF-заданий.
-      </p>
-      <p className="text-white/80 text-lg mb-4 leading-relaxed">
-        Создавай своё сообщество, объединяй единомышленников и получай поддержку от других участников платформы. 
-        Единая экосистема позволяет сочетать обучение, соревнования и социальное взаимодействие в одном удобном интерфейсе.
-      </p>
-      <ul className="list-disc list-inside text-white/80 space-y-2 text-lg">
-        <li>Социальная сеть прямо в приложении</li>
-        <li>Создание и участие в комьюнити</li>
-        <li>Обмен опытом и совместное решение задач</li>
-        <li>Кроссплатформенность: Android и iOS</li>
-      </ul>
-    </div>
-  </div>
-</section>
-{/* Команда проекта */}
-<section className="bg-gradient-to-r from-purple-900 via-black to-purple-950 py-16 text-white">
-  <div className="container mx-auto text-center">
-    <h2 className="font-display text-3xl sm:text-4xl font-extrabold mb-12">
-      Команда проекта
-    </h2>
-
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-10">
-      {[
-        {
-          img: "/assets/photo1.jpg",
-          name: "Галицына Анна",
-          role: "Лидер проекта, спикер, разработчик материалов"
-        },
-        {
-          img: "/assets/aly.jpg",
-          name: "Ильина Алевтина",
-          role: "Разработчик продуктов проекта"
-        },
-        {
-          img: "/assets/photo2.jpg",
-          name: "Овсянников Александр",
-          role: "Разработчик продуктов проекта"
-        }
-      ].map((member, index) => (
-        <motion.div
-          key={index}
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: index * 0.2 }}
-          viewport={{ once: true, amount: 0.3 }}
-          className="flex flex-col items-center"
-        >
-          <div className="bg-white rounded-full p-2 w-40 h-40 flex items-center justify-center shadow-lg">
-            <img
-              src={member.img}
-              alt={member.name}
-              className="w-full h-full object-cover rounded-full"
-            />
+            {/* Картинка */}
+            <div className="flex justify-center md:justify-start md:ml-12">
+              <img
+                src="/assets/image-6.png"
+                alt="Анализатор сетевого трафика"
+                className="w-full max-w-xl rounded-2xl shadow-2xl hover:scale-105 transition-transform duration-300 object-contain"
+              />
+            </div>
           </div>
-          <h3 className="text-xl font-bold mt-4">{member.name}</h3>
-          <p className="text-white/80 mt-1 text-sm">{member.role}</p>
-        </motion.div>
-      ))}
-    </div>
-  </div>
-</section>
-{/* Футер */}
-<footer className="bg-gradient-to-r from-purple-900 via-black to-purple-950 py-16 text-white">
-  {/* Нижняя полоса */}
-    <div className="border-t border-purple-700 mt-8 pt-6 text-center text-white/80 text-sm"></div>
-  <div className="container mx-auto px-4">
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-      {/* Колонка 1: О проекте */}
-      <div>
-        <h3 className="font-bold text-white text-lg mb-4">Hack CTF</h3>
-        <p className="text-white/80 text-sm leading-relaxed">
-          Олимпиадная платформа по информационной безопасности для школьников и студентов.
-          Проходи верификацию через Moodle, участвуй в CTF-соревнованиях и повышай свой уровень знаний.
-        </p>
-      </div>
+        </section>
 
-      {/* Колонка 2: Разделы */}
-      <div>
-        <h3 className="font-bold text-white text-lg mb-4">Услуги</h3>
-        <div className="text-white/80 text-sm space-y-2">
-          <p>
-            <span className="font-medium">Защита IP (IP Protection)</span> 
-          </p>
-          <p>
-            <span className="font-medium">Видимость данных (Data Visibility)</span>
-          </p>
-          <p>
-            <span className="font-medium">Мониторинг активности пользователей</span> 
-          </p>
-          <p>
-            <span className="font-medium">Реагирование на инциденты</span>
-          </p>
-          <p>
-            <span className="font-medium">Кибербезопасность и обучение</span>
-          </p>
-          <p>
-            <span className="font-medium">Анализ сетевого трафика (Big Data)</span>
-          </p>
-        </div>
-      </div>
+        {/* Единая экосистема и социальная сеть — id="about" (ссылка "О проекте" ведёт сюда) */}
+        <section id="about" className="bg-gradient-to-r from-purple-900 via-black to-purple-950 py-16 text-white">
+          <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center px-4 md:px-6">
+            {/* Картинка слева */}
+            <div className="flex justify-center md:justify-start">
+              <img
+                src="/assets/testi-people.png"
+                alt="Социальная сеть Hack CTF"
+                className="w-5/6 md:w-4/5 hover:scale-105 transition-transform duration-300 object-contain"
+              />
+            </div>
 
-      {/* Колонка 3: Контакты */}
-      <div>
-        <h3 className="font-bold text-white text-lg mb-4">Контакты</h3>
-        <div className="text-white/80 text-sm space-y-2">
-          <p>
-            <span className="font-medium">Адрес:</span> 658 Lane Drive st Riverside, California
-          </p>
-          <p>
-            <span className="font-medium">Email:</span> demo-mail@example.com
-          </p>
-          <p>
-            <span className="font-medium">Телефон:</span> +(880) 123 675 2893
-          </p>
-          <p>
-            <span className="font-medium">Fax:</span> +(880) 123 675 2893
-          </p>
-        </div>
-      </div>
+            {/* Текстовый блок справа */}
+            <div className="break-words max-w-full">
+              <h2 className="font-display text-3xl sm:text-4xl font-extrabold mb-6 leading-snug">
+                Единая экосистема и кроссплатформенность
+              </h2>
+              <p className="text-white/80 text-lg mb-4 leading-relaxed">
+                Наше мобильное приложение интегрирует собственную социальную сеть, где студенты и школьники могут общаться, обсуждать задания и делиться опытом. 
+                Всё это происходит прямо внутри приложения, не отвлекаясь от процесса обучения и прохождения CTF-заданий.
+              </p>
+              <p className="text-white/80 text-lg mb-4 leading-relaxed">
+                Создавай своё сообщество, объединяй единомышленников и получай поддержку от других участников платформы. 
+                Единая экосистема позволяет сочетать обучение, соревнования и социальное взаимодействие в одном удобном интерфейсе.
+              </p>
+              <ul className="list-disc list-inside text-white/80 space-y-2 text-lg">
+                <li>Социальная сеть прямо в приложении</li>
+                <li>Создание и участие в комьюнити</li>
+                <li>Обмен опытом и совместное решение задач</li>
+                <li>Кроссплатформенность: Android и iOS</li>
+              </ul>
+            </div>
+          </div>
+        </section>
 
-      {/* Колонка 4: Регистрация */}
-      <div>
-        <h3 className="font-bold text-white text-lg mb-4">Присоединяйтесь</h3>
-        <p className="text-white/80 text-sm mb-4">
-          Зарегистрируйтесь для участия в CTF-соревнованиях и получения доступа к образовательным материалам
-        </p>
-        <div className="flex flex-col space-y-2">
+        {/* Команда проекта — id="team" */}
+        <section id="team" className="bg-gradient-to-r from-purple-900 via-black to-purple-950 py-16 text-white">
+          <div className="container mx-auto text-center">
+            <h2 className="font-display text-3xl sm:text-4xl font-extrabold mb-12">
+              Команда проекта
+            </h2>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-10">
+              {[
+                {
+                  img: "/assets/photo1.jpg",
+                  name: "Галицына Анна",
+                  role: "Лидер проекта, спикер, разработчик материалов"
+                },
+                {
+                  img: "/assets/aly.jpg",
+                  name: "Ильина Алевтина",
+                  role: "Разработчик продуктов проекта"
+                },
+                {
+                  img: "/assets/photo2.jpg",
+                  name: "Овсянников Александр",
+                  role: "Разработчик продуктов проекта"
+                }
+              ].map((member, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: index * 0.2 }}
+                  viewport={{ once: true, amount: 0.3 }}
+                  className="flex flex-col items-center"
+                >
+                  <div className="bg-white rounded-full p-2 w-40 h-40 flex items-center justify-center shadow-lg">
+                    <img
+                      src={member.img}
+                      alt={member.name}
+                      className="w-full h-full object-cover rounded-full"
+                    />
                   </div>
-      </div>
-    </div>
+                  <h3 className="text-xl font-bold mt-4">{member.name}</h3>
+                  <p className="text-white/80 mt-1 text-sm">{member.role}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
 
-    {/* Нижняя полоса */}
-    <div className="border-t border-purple-700 mt-8 pt-6 text-center text-white/80 text-sm">
-  <p>© {new Date().getFullYear()} Hack CTF. Все права защищены.</p>
-</div>
-  </div>
-</footer>
-</main>
-      
+        {/* Футер */}
+        <footer className="bg-gradient-to-r from-purple-900 via-black to-purple-950 py-16 text-white">
+          {/* Нижняя полоса */}
+          <div className="border-t border-purple-700 mt-8 pt-6 text-center text-white/80 text-sm"></div>
+          <div className="container mx-auto px-4">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+              {/* Колонка 1: О проекте */}
+              <div>
+                <h3 className="font-bold text-white text-lg mb-4">Hack CTF</h3>
+                <p className="text-white/80 text-sm leading-relaxed">
+                  Олимпиадная платформа по информационной безопасности для школьников и студентов.
+                  Проходи верификацию через Moodle, участвуй в CTF-соревнованиях и повышай свой уровень знаний.
+                </p>
+              </div>
+
+              {/* Колонка 2: Разделы */}
+              <div>
+                <h3 className="font-bold text-white text-lg mb-4">Услуги</h3>
+                <div className="text-white/80 text-sm space-y-2">
+                  <p>
+                    <span className="font-medium">Защита IP (IP Protection)</span> 
+                  </p>
+                  <p>
+                    <span className="font-medium">Видимость данных (Data Visibility)</span>
+                  </p>
+                  <p>
+                    <span className="font-medium">Мониторинг активности пользователей</span> 
+                  </p>
+                  <p>
+                    <span className="font-medium">Реагирование на инциденты</span>
+                  </p>
+                  <p>
+                    <span className="font-medium">Кибербезопасность и обучение</span>
+                  </p>
+                  <p>
+                    <span className="font-medium">Анализ сетевого трафика (Big Data)</span>
+                  </p>
+                </div>
+              </div>
+
+              {/* Колонка 3: Контакты */}
+              <div>
+                <h3 className="font-bold text-white text-lg mb-4">Контакты</h3>
+                <div className="text-white/80 text-sm space-y-2">
+                  <p>
+                    <span className="font-medium">Адрес:</span> 658 Lane Drive st Riverside, California
+                  </p>
+                  <p>
+                    <span className="font-medium">Email:</span> demo-mail@example.com
+                  </p>
+                  <p>
+                    <span className="font-medium">Телефон:</span> +(880) 123 675 2893
+                  </p>
+                  <p>
+                    <span className="font-medium">Fax:</span> +(880) 123 675 2893
+                  </p>
+                </div>
+              </div>
+
+              {/* Колонка 4: Регистрация */}
+              <div>
+                <h3 className="font-bold text-white text-lg mb-4">Присоединяйтесь</h3>
+                <p className="text-white/80 text-sm mb-4">
+                  Зарегистрируйтесь для участия в CTF-соревнованиях и получения доступа к образовательным материалам
+                </p>
+                <div className="flex flex-col space-y-2">
+                </div>
+              </div>
+            </div>
+
+            {/* Нижняя полоса */}
+            <div className="border-t border-purple-700 mt-8 pt-6 text-center text-white/80 text-sm">
+              <p>© {new Date().getFullYear()} Hack CTF. Все права защищены.</p>
+            </div>
+          </div>
+        </footer>
+      </main>
     </>
   );
 };
