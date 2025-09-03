@@ -341,16 +341,16 @@ const Index: React.FC = () => {
                 <h3 className="font-bold text-white text-lg mb-4">Контакты</h3>
                 <div className="text-white/80 text-sm space-y-2">
                   <p>
-                    <span className="font-medium">Адрес:</span> 658 Lane Drive st Riverside, California
+                    <span className="font-medium">Адрес:</span> г.Курск, ул. Радищева 33
                   </p>
                   <p>
-                    <span className="font-medium">Email:</span> demo-mail@example.com
+                    <span className="font-medium">Email:</span> ovsyannikov_av@kursksu.ru
                   </p>
                   <p>
-                    <span className="font-medium">Телефон:</span> +(880) 123 675 2893
+                    <span className="font-medium">Телефон:</span> + 7 (909) 239 - 87 - 39
                   </p>
                   <p>
-                    <span className="font-medium">Fax:</span> +(880) 123 675 2893
+                    <span className="font-medium">Fax:</span> 7 (909) 239 - 87 - 39
                   </p>
                 </div>
               </div>
