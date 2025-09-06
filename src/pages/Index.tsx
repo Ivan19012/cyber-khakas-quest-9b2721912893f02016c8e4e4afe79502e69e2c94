@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import NeonNetwork from "@/components/visual/NeonNetwork";
 
 const Index: React.FC = () => {
@@ -19,7 +19,7 @@ const Index: React.FC = () => {
     } else {
       window.location.hash = `#${id}`;
     }
-    setMobileMenuOpen(false); // Закрываем мобильное меню после выбора
+    setMobileMenuOpen(false); // Закрыть меню после клика
   };
 
   const menuItems = [
@@ -28,9 +28,6 @@ const Index: React.FC = () => {
     { id: "about", label: "О проекте" },
     { id: "team", label: "Команда" },
   ];
-
-  // Для удобства отрисовки блоков с фото и заголовком отдельно в мобильной версии -
-  // В некоторых местах структура меняется, чтобы фото, заголовок и описание были вертикально выстроены.
 
   return (
     <>
@@ -44,7 +41,7 @@ const Index: React.FC = () => {
       </Helmet>
 
       {/* Хедер */}
-      <header className="w-full bg-gradient-to-r from-purple-900 via-black to-purple-950 border-b border-purple-700">
+      <header className="w-full bg-gradient-to-r from-purple-900 via-black to-purple-950 border-b border-purple-700 relative z-50">
         <nav className="container mx-auto flex items-center justify-between px-4 py-6 relative">
           <Link to="/" className="text-lg font-extrabold tracking-tight text-white z-20">
             Hack CTF
@@ -65,19 +62,9 @@ const Index: React.FC = () => {
               xmlns="http://www.w3.org/2000/svg"
             >
               {mobileMenuOpen ? (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               ) : (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
               )}
             </svg>
           </button>
@@ -96,7 +83,7 @@ const Index: React.FC = () => {
             ))}
           </div>
 
-          {/* Войти и Регистрация для десктопа */}
+          {/* Войти и Регистрация (десктоп) */}
           <div className="hidden md:flex gap-3">
             <Button
               className={purpleButtonClass}
@@ -115,46 +102,51 @@ const Index: React.FC = () => {
           </div>
         </nav>
 
-        {/* Мобильное меню - сдвигает контент вниз */}
-        <div
-          className={`md:hidden w-full transition-max-height duration-500 ease-in-out overflow-hidden ${
-            mobileMenuOpen ? "max-h-screen" : "max-h-0"
-          }`}
-          style={{ background: "linear-gradient(to right, #4c1d95, #000000, #4c1d95)" }}
-        >
-          <div className="flex flex-col items-center py-6 space-y-6">
-            {menuItems.map((item) => (
-              <a
-                key={item.id}
-                href={`#${item.id}`}
-                onClick={scrollToId(item.id)}
-                className="text-white text-lg hover:text-purple-400 transition-colors duration-300"
-              >
-                {item.label}
-              </a>
-            ))}
+        {/* Мобильное меню */}
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.4, ease: "easeInOut" }}
+              className="md:hidden w-full border-t border-purple-700 bg-gradient-to-r from-purple-900 via-black to-purple-950 text-white overflow-hidden"
+            >
+              <div className="flex flex-col items-center py-6 space-y-6">
+                {menuItems.map((item) => (
+                  <a
+                    key={item.id}
+                    href={`#${item.id}`}
+                    onClick={scrollToId(item.id)}
+                    className="text-white text-lg hover:text-purple-400 transition-colors duration-300"
+                  >
+                    {item.label}
+                  </a>
+                ))}
 
-            <Button
-              className={purpleButtonClass + " w-4/5"}
-              type="button"
-              onClick={() => (window.location.href = "https://hackstf.ru/lms/login/index.php")}
-            >
-              Войти
-            </Button>
-            <Button
-              className={purpleButtonClass + " w-4/5"}
-              type="button"
-              onClick={() => (window.location.href = "https://hackstf.ru/lms/login/signup.php")}
-            >
-              Регистрация
-            </Button>
-          </div>
-        </div>
+                <Button
+                  className={purpleButtonClass + " w-4/5"}
+                  type="button"
+                  onClick={() => (window.location.href = "https://hackstf.ru/lms/login/index.php")}
+                >
+                  Войти
+                </Button>
+                <Button
+                  className={purpleButtonClass + " w-4/5"}
+                  type="button"
+                  onClick={() => (window.location.href = "https://hackstf.ru/lms/login/signup.php")}
+                >
+                  Регистрация
+                </Button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </header>
 
-      {/* Контент с отступом сверху  чтобы не было наложения при мобильном меню */}
-      <main className={`${mobileMenuOpen ? "pt-[220px] md:pt-0" : "pt-0"}`}>
-        {/* Герой-блок (CTF) */}
+      {/* Контент */}
+      <main>
+        {/* Герой-блок */}
         <section
           id="ctf"
           className="relative overflow-hidden bg-gradient-to-r from-purple-900 via-black to-purple-950"
@@ -165,7 +157,7 @@ const Index: React.FC = () => {
             onMouseEnter={() => setNetworkSeed((s) => s + 1)}
           >
             {/* Текст и заголовок */}
-            <div className="text-left px-4 md:px-0 md:w-1/2">
+            <div className="text-left px-4 md:px-0 md:w-1/2 mt-10 md:mt-0">
               <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight mb-6">
                 Hack CTF — Олимпиадная платформа по ИБ
               </h1>
