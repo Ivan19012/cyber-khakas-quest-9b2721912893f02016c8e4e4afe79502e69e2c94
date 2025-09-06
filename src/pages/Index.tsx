@@ -19,7 +19,7 @@ const Index: React.FC = () => {
     } else {
       window.location.hash = `#${id}`;
     }
-    setMobileMenuOpen(false); // Закрыть меню после клика
+    setMobileMenuOpen(false); // закрыть меню на мобилке
   };
 
   const menuItems = [
@@ -76,7 +76,7 @@ const Index: React.FC = () => {
                 key={item.id}
                 href={`#${item.id}`}
                 onClick={scrollToId(item.id)}
-                className="text-white hover:text-purple-400"
+                className="text-white hover:text-purple-400 transition-colors duration-300"
               >
                 {item.label}
               </a>
