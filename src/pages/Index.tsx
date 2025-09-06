@@ -19,16 +19,18 @@ const Index: React.FC = () => {
     } else {
       window.location.hash = `#${id}`;
     }
-    setMobileMenuOpen(false); // Закрываем меню на мобильных после клика по пункту
+    setMobileMenuOpen(false); // Закрываем мобильное меню после выбора
   };
 
-  // Массив меню для удобства
   const menuItems = [
     { id: "theory", label: "Теория" },
     { id: "ctf", label: "CTF" },
     { id: "about", label: "О проекте" },
     { id: "team", label: "Команда" },
   ];
+
+  // Для удобства отрисовки блоков с фото и заголовком отдельно в мобильной версии -
+  // В некоторых местах структура меняется, чтобы фото, заголовок и описание были вертикально выстроены.
 
   return (
     <>
@@ -42,17 +44,17 @@ const Index: React.FC = () => {
       </Helmet>
 
       {/* Хедер */}
-      <header className="w-full py-6 bg-gradient-to-r from-purple-900 via-black to-purple-950 border-b border-purple-700">
-        <nav className="container mx-auto flex items-center justify-between text-white relative">
+      <header className="w-full bg-gradient-to-r from-purple-900 via-black to-purple-950 border-b border-purple-700">
+        <nav className="container mx-auto flex items-center justify-between px-4 py-6 relative">
           <Link to="/" className="text-lg font-extrabold tracking-tight text-white z-20">
             Hack CTF
           </Link>
 
-          {/* Кнопка гамбургера для мобильных */}
+          {/* Гамбургер */}
           <button
             type="button"
             aria-label="Toggle menu"
-            className="md:hidden z-20"
+            className="md:hidden z-30"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             <svg
@@ -80,7 +82,7 @@ const Index: React.FC = () => {
             </svg>
           </button>
 
-          {/* Меню для десктопа */}
+          {/* Десктоп меню */}
           <div className="hidden md:flex gap-6 select-none">
             {menuItems.map((item) => (
               <a
@@ -94,7 +96,7 @@ const Index: React.FC = () => {
             ))}
           </div>
 
-          {/* Кнопки Войти и Регистрация для десктопа */}
+          {/* Войти и Регистрация для десктопа */}
           <div className="hidden md:flex gap-3">
             <Button
               className={purpleButtonClass}
@@ -111,43 +113,47 @@ const Index: React.FC = () => {
               Регистрация
             </Button>
           </div>
-
-          {/* Мобильное меню */}
-          {mobileMenuOpen && (
-            <div className="absolute top-full left-0 w-full bg-gradient-to-r from-purple-900 via-black to-purple-950 border-t border-purple-700 md:hidden z-10">
-              <div className="flex flex-col items-center py-4 space-y-4">
-                {menuItems.map((item) => (
-                  <a
-                    key={item.id}
-                    href={`#${item.id}`}
-                    onClick={scrollToId(item.id)}
-                    className="text-white text-lg hover:text-purple-400"
-                  >
-                    {item.label}
-                  </a>
-                ))}
-
-                <Button
-                  className={purpleButtonClass + " w-4/5"}
-                  type="button"
-                  onClick={() => (window.location.href = "https://hackstf.ru/lms/login/index.php")}
-                >
-                  Войти
-                </Button>
-                <Button
-                  className={purpleButtonClass + " w-4/5"}
-                  type="button"
-                  onClick={() => (window.location.href = "https://hackstf.ru/lms/login/signup.php")}
-                >
-                  Регистрация
-                </Button>
-              </div>
-            </div>
-          )}
         </nav>
+
+        {/* Мобильное меню - сдвигает контент вниз */}
+        <div
+          className={`md:hidden w-full transition-max-height duration-500 ease-in-out overflow-hidden ${
+            mobileMenuOpen ? "max-h-screen" : "max-h-0"
+          }`}
+          style={{ background: "linear-gradient(to right, #4c1d95, #000000, #4c1d95)" }}
+        >
+          <div className="flex flex-col items-center py-6 space-y-6">
+            {menuItems.map((item) => (
+              <a
+                key={item.id}
+                href={`#${item.id}`}
+                onClick={scrollToId(item.id)}
+                className="text-white text-lg hover:text-purple-400 transition-colors duration-300"
+              >
+                {item.label}
+              </a>
+            ))}
+
+            <Button
+              className={purpleButtonClass + " w-4/5"}
+              type="button"
+              onClick={() => (window.location.href = "https://hackstf.ru/lms/login/index.php")}
+            >
+              Войти
+            </Button>
+            <Button
+              className={purpleButtonClass + " w-4/5"}
+              type="button"
+              onClick={() => (window.location.href = "https://hackstf.ru/lms/login/signup.php")}
+            >
+              Регистрация
+            </Button>
+          </div>
+        </div>
       </header>
 
-      <main>
+      {/* Контент с отступом сверху  чтобы не было наложения при мобильном меню */}
+      <main className={`${mobileMenuOpen ? "pt-[220px] md:pt-0" : "pt-0"}`}>
         {/* Герой-блок (CTF) */}
         <section
           id="ctf"
@@ -155,70 +161,74 @@ const Index: React.FC = () => {
         >
           <NeonNetwork className="absolute inset-0 -z-10" seed={networkSeed} color="purple" />
           <div
-            className="container mx-auto min-h-[70vh] flex items-center"
+            className="container mx-auto min-h-[70vh] flex flex-col md:flex-row items-center"
             onMouseEnter={() => setNetworkSeed((s) => s + 1)}
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center w-full text-white">
-              <div className="text-left px-4 md:px-0">
-                <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight">
-                  Hack CTF — Олимпиадная платформа по ИБ
-                </h1>
-                <p className="max-w-xl text-white/80 text-lg sm:text-xl mt-4">
-                  Олимпиадная платформа по информационной безопасности «Hack CTF». Участвуй в онлайн и очных этапах,
-                  прокачивая скиллы.
-                </p>
-              </div>
+            {/* Текст и заголовок */}
+            <div className="text-left px-4 md:px-0 md:w-1/2">
+              <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight mb-6">
+                Hack CTF — Олимпиадная платформа по ИБ
+              </h1>
+              <p className="max-w-xl text-white/80 text-lg sm:text-xl">
+                Олимпиадная платформа по информационной безопасности «Hack CTF». Участвуй в онлайн и очных этапах,
+                прокачивая скиллы.
+              </p>
+            </div>
 
-              <div className="flex justify-center md:justify-end px-4 md:px-0">
-                <img
-                  src="/assets/hero-image.png"
-                  alt="Hack CTF — олимпиадная платформа"
-                  className="w-full max-w-xl md:max-w-2xl hover:scale-105 transition-transform duration-300 object-cover"
-                />
-              </div>
+            {/* Картинка */}
+            <div className="flex justify-center md:justify-end px-4 md:px-0 md:w-1/2 mt-8 md:mt-0 w-full max-w-2xl">
+              <img
+                src="/assets/hero-image.png"
+                alt="Hack CTF — олимпиадная платформа"
+                className="w-full hover:scale-105 transition-transform duration-300 object-cover rounded-xl shadow-lg"
+              />
             </div>
           </div>
         </section>
 
-        {/* Блок о мобильном приложении - теория */}
+        {/* Теория — фото, заголовок, описание идут вертикально на мобилках */}
         <section
           id="theory"
           className="relative overflow-hidden bg-gradient-to-r from-purple-900 via-black to-purple-950 py-16"
         >
-          <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-            <div className="flex justify-center md:justify-start px-4 md:px-0">
-              <img
-                src="/assets/about-img.png"
-                alt="О приложении Hack CTF"
-                className="w-full max-w-sm md:max-w-md hover:scale-105 transition-transform duration-300 object-cover"
-              />
-            </div>
+          <div className="container mx-auto px-4 md:px-0">
+            {/* Фото с заголовком и списком под ним */}
+            <div className="flex flex-col md:flex-row md:items-center gap-10">
+              <div className="md:w-1/2 flex justify-center md:justify-start">
+                <img
+                  src="/assets/about-img.png"
+                  alt="О приложении Hack CTF"
+                  className="w-full max-w-sm md:max-w-md rounded-lg hover:scale-105 transition-transform duration-300 object-cover shadow-md"
+                />
+              </div>
 
-            <div className="px-4 md:px-6 text-white">
-              <h2 className="font-display text-3xl sm:text-4xl font-extrabold mb-4 leading-snug">
-                Мобильное приложение Hack CTF
-              </h2>
-              <p className="text-white/80 text-lg sm:text-xl mb-6">
-                Наше мобильное приложение позволяет изучать кибербезопасность в удобном формате, проходить CTF-задания и
-                получать баллы прямо со смартфона. Оно включает:
-              </p>
-              <ul className="list-disc list-inside text-white/80 space-y-2 text-lg">
-                <li>Доступ к теоретическим материалам и тестам</li>
-                <li>Практические CTF-задачи с моментальной проверкой</li>
-                <li>Соревнования и рейтинги</li>
-                <li>Оффлайн-режим для обучения без интернета</li>
-              </ul>
+              <div className="md:w-1/2 text-white">
+                <h2 className="font-display text-3xl sm:text-4xl font-extrabold mb-4 leading-snug">
+                  Мобильное приложение Hack CTF
+                </h2>
+                <p className="text-white/80 text-lg sm:text-xl mb-6">
+                  Наше мобильное приложение позволяет изучать кибербезопасность в удобном формате, проходить CTF-задания и получать баллы прямо со смартфона. Оно включает:
+                </p>
+                <ul className="list-disc list-inside text-white/80 space-y-2 text-lg">
+                  <li>Доступ к теоретическим материалам и тестам</li>
+                  <li>Практические CTF-задачи с моментальной проверкой</li>
+                  <li>Соревнования и рейтинги</li>
+                  <li>Оффлайн-режим для обучения без интернета</li>
+                </ul>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* Синергия технологий */}
+        {/* Секция синергии технологий - отдельно каждый блок вертикально по 1 фото + заголовок + описание */}
         <section className="bg-gradient-to-r from-purple-900 via-black to-purple-950 py-16 text-white">
-          <div className="container mx-auto text-center">
+          <div className="container mx-auto text-center px-4 md:px-0">
             <h2 className="font-display text-3xl sm:text-4xl font-extrabold mb-12">
               В нашем решении представлена синергия трех технологий
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+
+            {/* Делать карты вертикально на мобилках */}
+            <div className="flex flex-col md:grid md:grid-cols-3 gap-12">
               {[
                 {
                   img: "/assets/icon2.png",
@@ -242,6 +252,7 @@ const Index: React.FC = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: index * 0.2 }}
                   viewport={{ once: true, amount: 0.3 }}
+                  className="flex flex-col items-center"
                 >
                   <img
                     src={item.img}
@@ -249,24 +260,22 @@ const Index: React.FC = () => {
                     className="mx-auto mb-4 w-28 h-28 md:w-32 md:h-32"
                   />
                   <h3 className="text-xl font-bold mb-2">{item.title}</h3>
-                  <p className="text-white/80">{item.desc}</p>
+                  <p className="text-white/80 max-w-xs md:max-w-none">{item.desc}</p>
                 </motion.div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* Анализатор сетевого трафика */}
+        {/* Анализатор сетевого трафика - фото с заголовком и описанием вертикально */}
         <section className="bg-gradient-to-r from-purple-900 via-black to-purple-950 py-16 text-white">
-          <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center px-4 md:px-6">
-            <div className="break-words max-w-full">
+          <div className="container mx-auto px-4 md:px-6 flex flex-col md:flex-row items-center gap-10">
+            <div className="md:w-1/2 max-w-full">
               <h2 className="font-display text-3xl sm:text-4xl font-extrabold mb-6 leading-snug">
                 Анализатор сетевого трафика для больших данных
               </h2>
               <p className="text-white/80 text-lg mb-4 leading-relaxed">
-                Моделирование атак, отработка навыков на реальных данных и анализ больших дампов сетевого трафика. Модель ИИ
-                для автоматического выявления опасного трафика. Программная платформа для комплексного анализа Big Data
-                сетевого трафика (pcap/csv) в реальном времени и ретроспективе, которая объединяет:
+                Моделирование атак, отработка навыков на реальных данных и анализ больших дампов сетевого трафика. Модель ИИ для автоматического выявления опасного трафика. Программная платформа для комплексного анализа Big Data сетевого трафика (pcap/csv) в реальном времени и ретроспективе, которая объединяет:
               </p>
               <ul className="list-disc list-inside text-white/80 space-y-2 text-lg">
                 <li>Распределенную обработку Big Data (PySpark) — масштабируемость от МБ до ГБ+</li>
@@ -277,17 +286,17 @@ const Index: React.FC = () => {
               </ul>
             </div>
 
-            <div className="flex justify-center md:justify-start md:ml-12">
+            <div className="md:w-1/2 flex justify-center md:justify-start md:ml-12 w-full max-w-xl">
               <img
                 src="/assets/image-6.png"
                 alt="Анализатор сетевого трафика"
-                className="w-full max-w-xl rounded-2xl shadow-2xl hover:scale-105 transition-transform duration-300 object-contain"
+                className="w-full rounded-2xl shadow-2xl hover:scale-105 transition-transform duration-300 object-contain"
               />
             </div>
           </div>
         </section>
 
-        {/* Единая экосистема и социальная сеть */}
+        {/* Единая экосистема и соцсеть по схеме вертикального расположения фото и текста */}
         <section
           id="about"
           className="bg-gradient-to-r from-purple-900 via-black to-purple-950 py-16 text-white"
@@ -297,7 +306,7 @@ const Index: React.FC = () => {
               <img
                 src="/assets/testi-people.png"
                 alt="Социальная сеть Hack CTF"
-                className="w-5/6 md:w-4/5 hover:scale-105 transition-transform duration-300 object-contain"
+                className="w-5/6 md:w-4/5 hover:scale-105 transition-transform duration-300 object-contain rounded-lg shadow-md"
               />
             </div>
 
@@ -306,14 +315,10 @@ const Index: React.FC = () => {
                 Единая экосистема и кроссплатформенность
               </h2>
               <p className="text-white/80 text-lg mb-4 leading-relaxed">
-                Наше мобильное приложение интегрирует собственную социальную сеть, где студенты и школьники могут общаться,
-                обсуждать задания и делиться опытом. Всё это происходит прямо внутри приложения, не отвлекаясь от процесса
-                обучения и прохождения CTF-заданий.
+                Наше мобильное приложение интегрирует собственную социальную сеть, где студенты и школьники могут общаться, обсуждать задания и делиться опытом. Всё это происходит прямо внутри приложения, не отвлекаясь от процесса обучения и прохождения CTF-заданий.
               </p>
               <p className="text-white/80 text-lg mb-4 leading-relaxed">
-                Создавай своё сообщество, объединяй единомышленников и получай поддержку от других участников платформы.
-                Единая экосистема позволяет сочетать обучение, соревнования и социальное взаимодействие в одном удобном
-                интерфейсе.
+                Создавай своё сообщество, объединяй единомышленников и получай поддержку от других участников платформы. Единая экосистема позволяет сочетать обучение, соревнования и социальное взаимодействие в одном удобном интерфейсе.
               </p>
               <ul className="list-disc list-inside text-white/80 space-y-2 text-lg">
                 <li>Социальная сеть прямо в приложении</li>
