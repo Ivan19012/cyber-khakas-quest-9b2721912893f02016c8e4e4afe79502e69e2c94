@@ -1,8 +1,13 @@
+import React from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  RouteObject,
+} from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
@@ -12,22 +17,33 @@ import { HelmetProvider } from "react-helmet-async";
 
 const queryClient = new QueryClient();
 
-const App = () => (
+const routes: RouteObject[] = [
+  { path: "/", element: <Index /> },
+  { path: "/auth", element: <Auth /> },
+  { path: "/verify", element: <Verify /> },
+  { path: "/home", element: <Home /> },
+  { path: "*", element: <NotFound /> },
+];
+
+// Создаём роутер с включением future flags, кроме v7_startTransition (он в RouterProvider)
+const router = createBrowserRouter(routes, {
+  future: {
+    v7_relativeSplatPath: true,
+    v7_fetcherPersist: true,
+    v7_normalizeFormMethod: true,
+    v7_partialHydration: true,
+    v7_skipActionErrorRevalidation: true,
+  },
+});
+
+const App: React.FC = () => (
   <QueryClientProvider client={queryClient}>
     <HelmetProvider>
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/auth" element={<Auth />} />
-            <Route path="/verify" element={<Verify />} />
-            <Route path="/home" element={<Home />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
+        {/* RouterProvider с флагом v7_startTransition */}
+        <RouterProvider router={router} future={{ v7_startTransition: true }} />
       </TooltipProvider>
     </HelmetProvider>
   </QueryClientProvider>
