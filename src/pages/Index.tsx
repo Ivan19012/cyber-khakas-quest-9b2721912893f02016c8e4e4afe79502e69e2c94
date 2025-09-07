@@ -14,17 +14,17 @@ const Index: React.FC = () => {
   const scrollToId = (id: string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (mobileMenuOpen) {
       e.preventDefault();
-      const el = document.getElementById(id);
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth", block: "start" });
-      } else {
-        window.location.hash = `#${id}`;
-      }
+      setMobileMenuOpen(false);
       setTimeout(() => {
-        setMobileMenuOpen(false);
-      }, 300);
+        const el = document.getElementById(id);
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth", block: "start" });
+        } else {
+          window.location.hash = `#${id}`;
+        }
+      }, 400);
     }
-    // Десктоп версия: ссылка работает как обычно
+    // Десктоп: ссылки работают по умолчанию
   };
 
   const menuItems = [
