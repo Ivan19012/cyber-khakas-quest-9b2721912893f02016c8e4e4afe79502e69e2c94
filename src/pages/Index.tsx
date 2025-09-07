@@ -147,27 +147,27 @@ const Index: React.FC = () => {
       <main>
         {/* Герой-блок */}
         {/* Герой-блок */}
+{/* Блок CTF */}
 <section
   id="ctf"
   className="relative overflow-hidden bg-gradient-to-r from-purple-900 via-black to-purple-950"
 >
   <NeonNetwork className="absolute inset-0 -z-10" seed={networkSeed} color="purple" />
   <div
-    className="container mx-auto min-h-[70vh] flex flex-col md:flex-row items-center"
+    className="container mx-auto min-h-[70vh] flex flex-col md:flex-row items-center px-4 md:px-0"
     onMouseEnter={() => setNetworkSeed((s) => s + 1)}
   >
-    {/* Текст */}
-    <div className="text-left px-4 md:px-0 md:w-1/2 mt-10 md:mt-0 order-2 md:order-1">
-      <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight mb-6">
+    {/* Текст, для мобильных order-1, на десктопе order-1 (до этого было order-2) */}
+    <div className="text-left md:w-1/2 mt-10 md:mt-0 order-1 md:order-1">
+      <h1 className="font-display text-3xl sm:text-4xl md:text-6xl font-extrabold leading-snug mb-4 md:mb-6">
         Hack CTF — Олимпиадная платформа по ИБ
       </h1>
-      <p className="max-w-xl text-white/80 text-lg sm:text-xl">
+      <p className="text-white/80 text-lg sm:text-xl leading-relaxed max-w-xl">
         Олимпиадная платформа по информационной безопасности «Hack CTF». Участвуй в онлайн и очных этапах, прокачивая скиллы.
       </p>
     </div>
-
-    {/* Фото (выше в мобильной версии чуть больше) */}
-    <div className="flex justify-center md:justify-end px-4 md:px-0 md:w-1/2 mt-8 md:mt-0 w-full max-w-2xl order-1 md:order-2">
+    {/* Фото, для мобильных order-2, на десктопе order-2 (до этого было order-1) */}
+    <div className="flex justify-center md:justify-end md:w-1/2 mt-6 md:mt-0 order-2 md:order-2 w-full max-w-2xl">
       <img
         src="/assets/hero-image.png"
         alt="Hack CTF — олимпиадная платформа"
@@ -177,37 +177,36 @@ const Index: React.FC = () => {
   </div>
 </section>
 
-{/* Теория */}
+{/* Блок theory */}
 <section
   id="theory"
   className="relative overflow-hidden bg-gradient-to-r from-purple-900 via-black to-purple-950 py-16"
 >
   <div className="container mx-auto px-4 md:px-0">
-    {/* На мобильных - колонки в колонку с управлением порядка фото и текста */}
+    {/* Для мобильных меняем порядок: заголовок и описание первыми; фото после */}
     <div className="flex flex-col md:flex-row md:items-center gap-10">
-      {/* Фото - чуть меньше на мобилках, и расположено первым (order), на десктопе слева */}
-      <div className="md:w-1/2 flex justify-center md:justify-start order-1">
-        <img
-          src="/assets/about-img.png"
-          alt="О приложении Hack CTF"
-          className="w-full max-w-[250px] sm:max-w-[320px] md:max-w-md rounded-lg hover:scale-105 transition-transform duration-300 object-cover shadow-md"
-        />
-      </div>
-
-      {/* Текст - на мобилках идет после фото (order), на десктопе справа */}
-      <div className="md:w-1/2 text-white order-2">
+      {/* Текст: на мобилках order-1, на десктопе order-2 */}
+      <div className="md:w-1/2 text-white order-1 md:order-2">
         <h2 className="font-display text-3xl sm:text-4xl font-extrabold mb-4 leading-snug">
           Мобильное приложение Hack CTF
         </h2>
-        <p className="text-white/80 text-lg sm:text-xl mb-6">
+        <p className="text-white/80 text-lg sm:text-xl mb-6 leading-relaxed">
           Наше мобильное приложение позволяет изучать кибербезопасность в удобном формате, проходить CTF-задания и получать баллы прямо со смартфона. Оно включает:
         </p>
-        <ul className="list-disc list-inside text-white/80 space-y-2 text-lg">
+        <ul className="list-disc list-inside text-white/80 space-y-2 text-lg leading-relaxed">
           <li>Доступ к теоретическим материалам и тестам</li>
           <li>Практические CTF-задачи с моментальной проверкой</li>
           <li>Соревнования и рейтинги</li>
           <li>Оффлайн-режим для обучения без интернета</li>
         </ul>
+      </div>
+      {/* Фото: на мобилках order-2, на десктопе order-1 */}
+      <div className="md:w-1/2 flex justify-center md:justify-start order-2 md:order-1">
+        <img
+          src="/assets/about-img.png"
+          alt="О приложении Hack CTF"
+          className="w-full max-w-[250px] sm:max-w-[320px] md:max-w-md rounded-lg hover:scale-105 transition-transform duration-300 object-cover shadow-md"
+        />
       </div>
     </div>
   </div>
