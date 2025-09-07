@@ -11,6 +11,7 @@ const Index: React.FC = () => {
 
   const purpleButtonClass = "bg-purple-600 text-white hover:bg-purple-500";
 
+  // Функция плавного скролла к элементу по id и закрытия моб. меню
   const scrollToId = (id: string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     const el = document.getElementById(id);
@@ -19,7 +20,7 @@ const Index: React.FC = () => {
     } else {
       window.location.hash = `#${id}`;
     }
-    setMobileMenuOpen(false); // закрыть меню на мобилке
+    setMobileMenuOpen(false);
   };
 
   const menuItems = [
@@ -40,14 +41,12 @@ const Index: React.FC = () => {
         <link rel="canonical" href="/" />
       </Helmet>
 
-      {/* Хедер */}
       <header className="w-full bg-gradient-to-r from-purple-900 via-black to-purple-950 border-b border-purple-700 relative z-50">
         <nav className="container mx-auto flex items-center justify-between px-4 py-6 relative">
           <Link to="/" className="text-lg font-extrabold tracking-tight text-white z-20">
             Hack CTF
           </Link>
-
-          {/* Гамбургер */}
+          {/* Гамбургер для мобилки */}
           <button
             type="button"
             aria-label="Toggle menu"
@@ -62,14 +61,24 @@ const Index: React.FC = () => {
               xmlns="http://www.w3.org/2000/svg"
             >
               {mobileMenuOpen ? (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
               ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
               )}
             </svg>
           </button>
 
-          {/* Десктоп меню */}
+          {/* Десктопное меню */}
           <div className="hidden md:flex gap-6 select-none">
             {menuItems.map((item) => (
               <a
@@ -83,7 +92,7 @@ const Index: React.FC = () => {
             ))}
           </div>
 
-          {/* Войти и Регистрация (десктоп) */}
+          {/* Кнопки Войти и Регистрация (десктоп) */}
           <div className="hidden md:flex gap-3">
             <Button
               className={purpleButtonClass}
@@ -102,7 +111,7 @@ const Index: React.FC = () => {
           </div>
         </nav>
 
-        {/* Мобильное меню */}
+        {/* Мобильное меню с анимацией */}
         <AnimatePresence>
           {mobileMenuOpen && (
             <motion.div
@@ -143,7 +152,6 @@ const Index: React.FC = () => {
           )}
         </AnimatePresence>
       </header>
-
       {/* Контент */}
       <main>
         {/* Герой-блок */}
