@@ -12,15 +12,19 @@ const Index: React.FC = () => {
   const purpleButtonClass = "bg-purple-600 text-white hover:bg-purple-500";
 
   // Функция плавного скролла к элементу по id и закрытия моб. меню
+  // С предотвращением перехода по ссылке только для мобилки (mobileMenuOpen === true)
   const scrollToId = (id: string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
-    } else {
-      window.location.hash = `#${id}`;
+    if (mobileMenuOpen) {
+      e.preventDefault();
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else {
+        window.location.hash = `#${id}`;
+      }
+      setMobileMenuOpen(false);
     }
-    setMobileMenuOpen(false);
+    // Если меню не открыто (десктоп), поведение ссылки по умолчанию (переход по якорю) сохраняется
   };
 
   const menuItems = [
@@ -152,7 +156,7 @@ const Index: React.FC = () => {
           )}
         </AnimatePresence>
       </header>
-      {/* Контент */}
+      
       <main>
         {/* Герой-блок */}
         <section
