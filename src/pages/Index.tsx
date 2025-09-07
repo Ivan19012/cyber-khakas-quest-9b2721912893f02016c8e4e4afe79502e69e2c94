@@ -11,8 +11,6 @@ const Index: React.FC = () => {
 
   const purpleButtonClass = "bg-purple-600 text-white hover:bg-purple-500";
 
-  // Функция плавного скролла к элементу по id и закрытия моб. меню
-  // С предотвращением перехода по ссылке только для мобилки (mobileMenuOpen === true)
   const scrollToId = (id: string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (mobileMenuOpen) {
       e.preventDefault();
@@ -22,9 +20,11 @@ const Index: React.FC = () => {
       } else {
         window.location.hash = `#${id}`;
       }
-      setMobileMenuOpen(false);
+      setTimeout(() => {
+        setMobileMenuOpen(false);
+      }, 300);
     }
-    // Если меню не открыто (десктоп), поведение ссылки по умолчанию (переход по якорю) сохраняется
+    // Десктоп версия: ссылка работает как обычно
   };
 
   const menuItems = [
@@ -50,7 +50,7 @@ const Index: React.FC = () => {
           <Link to="/" className="text-lg font-extrabold tracking-tight text-white z-20">
             Hack CTF
           </Link>
-          {/* Гамбургер для мобилки */}
+
           <button
             type="button"
             aria-label="Toggle menu"
@@ -65,24 +65,13 @@ const Index: React.FC = () => {
               xmlns="http://www.w3.org/2000/svg"
             >
               {mobileMenuOpen ? (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               ) : (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
               )}
             </svg>
           </button>
 
-          {/* Десктопное меню */}
           <div className="hidden md:flex gap-6 select-none">
             {menuItems.map((item) => (
               <a
@@ -96,7 +85,6 @@ const Index: React.FC = () => {
             ))}
           </div>
 
-          {/* Кнопки Войти и Регистрация (десктоп) */}
           <div className="hidden md:flex gap-3">
             <Button
               className={purpleButtonClass}
@@ -115,7 +103,6 @@ const Index: React.FC = () => {
           </div>
         </nav>
 
-        {/* Мобильное меню с анимацией */}
         <AnimatePresence>
           {mobileMenuOpen && (
             <motion.div
@@ -156,7 +143,7 @@ const Index: React.FC = () => {
           )}
         </AnimatePresence>
       </header>
-      
+
       <main>
         {/* Герой-блок */}
         <section
@@ -168,7 +155,6 @@ const Index: React.FC = () => {
             className="container mx-auto min-h-[70vh] flex flex-col md:flex-row items-center"
             onMouseEnter={() => setNetworkSeed((s) => s + 1)}
           >
-            {/* Текст и заголовок */}
             <div className="text-left px-4 md:px-0 md:w-1/2 mt-10 md:mt-0">
               <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight mb-6">
                 Hack CTF — Олимпиадная платформа по ИБ
@@ -179,7 +165,6 @@ const Index: React.FC = () => {
               </p>
             </div>
 
-            {/* Картинка */}
             <div className="flex justify-center md:justify-end px-4 md:px-0 md:w-1/2 mt-8 md:mt-0 w-full max-w-2xl">
               <img
                 src="/assets/hero-image.png"
@@ -190,13 +175,12 @@ const Index: React.FC = () => {
           </div>
         </section>
 
-        {/* Теория — фото, заголовок, описание идут вертикально на мобилках */}
+        {/* Теория */}
         <section
           id="theory"
           className="relative overflow-hidden bg-gradient-to-r from-purple-900 via-black to-purple-950 py-16"
         >
           <div className="container mx-auto px-4 md:px-0">
-            {/* Фото с заголовком и списком под ним */}
             <div className="flex flex-col md:flex-row md:items-center gap-10">
               <div className="md:w-1/2 flex justify-center md:justify-start">
                 <img
