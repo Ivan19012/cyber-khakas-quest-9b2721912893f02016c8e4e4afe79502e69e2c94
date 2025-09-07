@@ -259,68 +259,70 @@ const Index: React.FC = () => {
           </div>
         </section>
 
-        {/* Анализатор сетевого трафика - фото с заголовком и описанием вертикально */}
-        <section className="bg-gradient-to-r from-purple-900 via-black to-purple-950 py-16 text-white">
-          <div className="container mx-auto px-4 md:px-6 flex flex-col md:flex-row items-center gap-10">
-            <div className="md:w-1/2 max-w-full">
-              <h2 className="font-display text-3xl sm:text-4xl font-extrabold mb-6 leading-snug">
-                Анализатор сетевого трафика для больших данных
-              </h2>
-              <p className="text-white/80 text-lg mb-4 leading-relaxed">
-                Моделирование атак, отработка навыков на реальных данных и анализ больших дампов сетевого трафика. Модель ИИ для автоматического выявления опасного трафика. Программная платформа для комплексного анализа Big Data сетевого трафика (pcap/csv) в реальном времени и ретроспективе, которая объединяет:
-              </p>
-              <ul className="list-disc list-inside text-white/80 space-y-2 text-lg">
-                <li>Распределенную обработку Big Data (PySpark) — масштабируемость от МБ до ГБ+</li>
-                <li>Продвинутый ИИ для детекции угроз (LSTM, автоэнкодеры)</li>
-                <li>Потоковую аналитику (Kafka/Spark Streaming)</li>
-                <li>Глубокий протокольный декодинг (уровень Wireshark)</li>
-                <li>Интерактивную визуализацию (GUI)</li>
-              </ul>
-            </div>
+        {/* Анализатор сетевого трафика */}
+<section className="bg-gradient-to-r from-purple-900 via-black to-purple-950 py-16 text-white">
+  <div className="container mx-auto px-4 md:px-6 flex flex-col md:flex-row items-center gap-10">
+    {/* Заголовок и описание: мобилки order-1, десктоп order-1 */}
+    <div className="md:w-1/2 order-1 md:order-1">
+      <h2 className="font-display text-3xl sm:text-4xl font-extrabold mb-6 leading-snug">
+        Анализатор сетевого трафика для больших данных
+      </h2>
+      <p className="text-white/80 text-lg mb-4 leading-relaxed">
+        Моделирование атак, отработка навыков на реальных данных и анализ больших дампов сетевого трафика. Модель ИИ для автоматического выявления опасного трафика. Программная платформа для комплексного анализа Big Data сетевого трафика (pcap/csv) в реальном времени и ретроспективе, которая объединяет:
+      </p>
+      <ul className="list-disc list-inside text-white/80 space-y-2 text-lg">
+        <li>Распределенную обработку Big Data (PySpark) — масштабируемость от МБ до ГБ+</li>
+        <li>Продвинутый ИИ для детекции угроз (LSTM, автоэнкодеры)</li>
+        <li>Потоковую аналитику (Kafka/Spark Streaming)</li>
+        <li>Глубокий протокольный декодинг (уровень Wireshark)</li>
+        <li>Интерактивную визуализацию (GUI)</li>
+      </ul>
+    </div>
+    {/* Фото: мобилки order-2, десктоп order-2 */}
+    <div className="md:w-1/2 flex justify-center md:justify-start md:ml-12 w-full max-w-xl order-2 md:order-2">
+      <img
+        src="/assets/image-6.png"
+        alt="Анализатор сетевого трафика"
+        className="w-full rounded-2xl shadow-2xl hover:scale-105 transition-transform duration-300 object-contain"
+      />
+    </div>
+  </div>
+</section>
 
-            <div className="md:w-1/2 flex justify-center md:justify-start md:ml-12 w-full max-w-xl">
-              <img
-                src="/assets/image-6.png"
-                alt="Анализатор сетевого трафика"
-                className="w-full rounded-2xl shadow-2xl hover:scale-105 transition-transform duration-300 object-contain"
-              />
-            </div>
-          </div>
-        </section>
-
-        {/* Единая экосистема и соцсеть по схеме вертикального расположения фото и текста */}
-        <section
-          id="about"
-          className="bg-gradient-to-r from-purple-900 via-black to-purple-950 py-16 text-white"
-        >
-          <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center px-4 md:px-6">
-            <div className="flex justify-center md:justify-start">
-              <img
-                src="/assets/testi-people.png"
-                alt="Социальная сеть Hack CTF"
-                className="w-5/6 md:w-4/5 hover:scale-105 transition-transform duration-300 object-contain rounded-lg shadow-md"
-              />
-            </div>
-
-            <div className="break-words max-w-full">
-              <h2 className="font-display text-3xl sm:text-4xl font-extrabold mb-6 leading-snug">
-                Единая экосистема и кроссплатформенность
-              </h2>
-              <p className="text-white/80 text-lg mb-4 leading-relaxed">
-                Наше мобильное приложение интегрирует собственную социальную сеть, где студенты и школьники могут общаться, обсуждать задания и делиться опытом. Всё это происходит прямо внутри приложения, не отвлекаясь от процесса обучения и прохождения CTF-заданий.
-              </p>
-              <p className="text-white/80 text-lg mb-4 leading-relaxed">
-                Создавай своё сообщество, объединяй единомышленников и получай поддержку от других участников платформы. Единая экосистема позволяет сочетать обучение, соревнования и социальное взаимодействие в одном удобном интерфейсе.
-              </p>
-              <ul className="list-disc list-inside text-white/80 space-y-2 text-lg">
-                <li>Социальная сеть прямо в приложении</li>
-                <li>Создание и участие в комьюнити</li>
-                <li>Обмен опытом и совместное решение задач</li>
-                <li>Кроссплатформенность: Android и iOS</li>
-              </ul>
-            </div>
-          </div>
-        </section>
+{/* Блок с id="about" */}
+<section
+  id="about"
+  className="bg-gradient-to-r from-purple-900 via-black to-purple-950 py-16 text-white"
+>
+  <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center px-4 md:px-6">
+    {/* Текст: мобилки order-1, на десктопе order-2 */}
+    <div className="break-words max-w-full order-1 md:order-2">
+      <h2 className="font-display text-3xl sm:text-4xl font-extrabold mb-6 leading-snug">
+        Единая экосистема и кроссплатформенность
+      </h2>
+      <p className="text-white/80 text-lg mb-4 leading-relaxed">
+        Наше мобильное приложение интегрирует собственную социальную сеть, где студенты и школьники могут общаться, обсуждать задания и делиться опытом. Всё это происходит прямо внутри приложения, не отвлекаясь от процесса обучения и прохождения CTF-заданий.
+      </p>
+      <p className="text-white/80 text-lg mb-4 leading-relaxed">
+        Создавай своё сообщество, объединяй единомышленников и получай поддержку от других участников платформы. Единая экосистема позволяет сочетать обучение, соревнования и социальное взаимодействие в одном удобном интерфейсе.
+      </p>
+      <ul className="list-disc list-inside text-white/80 space-y-2 text-lg">
+        <li>Социальная сеть прямо в приложении</li>
+        <li>Создание и участие в комьюнити</li>
+        <li>Обмен опытом и совместное решение задач</li>
+        <li>Кроссплатформенность: Android и iOS</li>
+      </ul>
+    </div>
+    {/* Фото: мобилки order-2, на десктопе order-1 (чтобы было слева) */}
+    <div className="flex justify-center md:justify-start order-2 md:order-1">
+      <img
+        src="/assets/testi-people.png"
+        alt="Социальная сеть Hack CTF"
+        className="w-5/6 md:w-4/5 hover:scale-105 transition-transform duration-300 object-contain rounded-lg shadow-md"
+      />
+    </div>
+  </div>
+</section>
 
         {/* Команда проекта */}
         <section
