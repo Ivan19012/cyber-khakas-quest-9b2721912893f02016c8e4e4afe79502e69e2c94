@@ -19,31 +19,59 @@ const Index: React.FC = () => {
 
   const purpleButtonClass = "bg-purple-600 text-white hover:bg-purple-500";
 
-  const scrollToId = (id: string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
-    if (mobileMenuOpen) {
-      e.preventDefault();
-      setMobileMenuOpen(false);
-      setTimeout(() => {
-        const el = document.getElementById(id);
-        if (el) {
-          el.scrollIntoView({ behavior: "smooth", block: "start" });
-        } else {
-          window.location.hash = `#${id}`;
-        }
-        setActiveTab(id);
-      }, 600);
-    } else {
-      // Десктоп
-      e.preventDefault();
-      setActiveTab(id);
-      const el = document.getElementById(id);
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth", block: "start" });
-      } else {
-        window.location.hash = `#${id}`;
-      }
+  const smoothScrollTo = (targetY: number, duration = 1200) => {
+  const startY = window.scrollY || window.pageYOffset;
+  const distance = targetY - startY;
+  let startTime: number | null = null;
+
+  const easeInOutCubic = (t: number) =>
+    t < 0.5
+      ? 4 * t * t * t
+      : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+  const step = (timestamp: number) => {
+    if (!startTime) startTime = timestamp;
+    const elapsed = timestamp - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const easeProgress = easeInOutCubic(progress);
+    window.scrollTo(0, startY + distance * easeProgress);
+    if (elapsed < duration) {
+      window.requestAnimationFrame(step);
     }
   };
+
+  window.requestAnimationFrame(step);
+};
+
+const scrollToId = (id: string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
+  e.preventDefault();
+
+  const el = document.getElementById(id);
+  if (!el) {
+    window.location.hash = `#${id}`;
+    setActiveTab(id);
+    return;
+  }
+
+  if (mobileMenuOpen) {
+    // Мобильный скролл — оставляем как есть с scrollIntoView
+    setMobileMenuOpen(false);
+    setTimeout(() => {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+      setActiveTab(id);
+    }, 600);
+  } else {
+    // Веб-версия — используем кастомный плавный скролл, если ширина > 768
+    setActiveTab(id);
+    const y = el.getBoundingClientRect().top + window.pageYOffset;
+
+    if (window.innerWidth > 768) {
+      smoothScrollTo(y, 1200);
+    } else {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }
+};
 
   return (
     <>
@@ -187,13 +215,14 @@ const Index: React.FC = () => {
       </p>
     </div>
     {/* Фото, для мобильных order-2, на десктопе order-2 (до этого было order-1) */}
-    <div className="flex justify-center md:justify-end md:w-1/2 mt-6 md:mt-0 order-2 md:order-2 w-full max-w-2xl">
-      <img
-        src="/assets/hero-image.png"
-        alt="Hack CTF — олимпиадная платформа"
-        className="w-full max-w-[450px] sm:max-w-[550px] md:max-w-full hover:scale-105 transition-transform duration-300 object-cover rounded-xl shadow-lg"
-      />
-    </div>
+    
+<div className="mobile-no-border flex justify-center md:justify-end md:w-1/2 mt-6 md:mt-0 order-2 md:order-2 w-full max-w-2xl">
+  <img
+    src="/assets/hero-image.png"
+    alt="Hack CTF — олимпиадная платформа"
+    className="w-full max-w-[450px] sm:max-w-[550px] md:max-w-full hover:scale-105 transition-transform duration-300 object-cover rounded-xl shadow-lg"
+  />
+</div>
   </div>
 </section>
 
@@ -221,13 +250,14 @@ const Index: React.FC = () => {
         </ul>
       </div>
       {/* Фото: на мобилках order-2, на десктопе order-1 */}
-      <div className="md:w-1/2 flex justify-center md:justify-start order-2 md:order-1">
-        <img
-          src="/assets/about-img.png"
-          alt="О приложении Hack CTF"
-          className="w-full max-w-[350px] sm:max-w-[300px] md:max-w-md rounded-lg hover:scale-105 transition-transform duration-300 object-cover shadow-md"
-        />
-      </div>
+      
+<div className="mobile-no-border md:w-1/2 flex justify-center md:justify-start order-2 md:order-1">
+  <img
+    src="/assets/about-img.png"
+    alt="О приложении Hack CTF"
+    className="w-full max-w-[350px] sm:max-w-[300px] md:max-w-md rounded-lg hover:scale-105 transition-transform duration-300 object-cover shadow-md"
+  />
+</div>
     </div>
   </div>
 </section>
@@ -299,13 +329,15 @@ const Index: React.FC = () => {
       </ul>
     </div>
     {/* Фото: мобилки order-2, десктоп order-2 */}
-    <div className="md:w-1/2 flex justify-center md:justify-start md:ml-12 w-full max-w-xl order-2 md:order-2">
-      <img
-        src="/assets/image-6.png"
-        alt="Анализатор сетевого трафика"
-        className="w-full rounded-2xl shadow-2xl hover:scale-105 transition-transform duration-300 object-contain"
-      />
-    </div>
+    
+<div className="mobile-no-border md:w-1/2 flex justify-center md:justify-start md:ml-12 w-full max-w-xl order-2 md:order-2">
+  <img
+    src="/assets/image-6.png"
+    alt="Анализатор сетевого трафика"
+    className="w-full rounded-2xl shadow-2xl hover:scale-105 transition-transform duration-300 object-contain"
+  />
+</div>
+
   </div>
 </section>
 
@@ -334,13 +366,14 @@ const Index: React.FC = () => {
       </ul>
     </div>
     {/* Фото: мобилки order-2, на десктопе order-1 (чтобы было слева) */}
-    <div className="flex justify-center md:justify-start order-2 md:order-1">
-      <img
-        src="/assets/testi-people.png"
-        alt="Социальная сеть Hack CTF"
-        className="w-5/6 md:w-4/5 hover:scale-105 transition-transform duration-300 object-contain rounded-lg shadow-md"
-      />
-    </div>
+    
+<div className="mobile-no-border flex justify-center md:justify-start order-2 md:order-1">
+  <img
+    src="/assets/testi-people.png"
+    alt="Социальная сеть Hack CTF"
+    className="w-5/6 md:w-4/5 hover:scale-105 transition-transform duration-300 object-contain rounded-lg shadow-md"
+  />
+</div>
   </div>
 </section>
 
