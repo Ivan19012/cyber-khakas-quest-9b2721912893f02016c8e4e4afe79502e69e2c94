@@ -5,9 +5,17 @@ import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import NeonNetwork from "@/components/visual/NeonNetwork";
 
+const menuItems = [
+  { id: "theory", label: "Теория" },
+  { id: "ctf", label: "CTF" },
+  { id: "about", label: "О проекте" },
+  { id: "team", label: "Команда" },
+];
+
 const Index: React.FC = () => {
   const [networkSeed, setNetworkSeed] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState("theory"); // Для анимированного меню
 
   const purpleButtonClass = "bg-purple-600 text-white hover:bg-purple-500";
 
@@ -22,17 +30,20 @@ const Index: React.FC = () => {
         } else {
           window.location.hash = `#${id}`;
         }
+        setActiveTab(id);
       }, 400);
+    } else {
+      // Десктоп
+      e.preventDefault();
+      setActiveTab(id);
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else {
+        window.location.hash = `#${id}`;
+      }
     }
-    // Десктоп: ссылки работают по умолчанию
   };
-
-  const menuItems = [
-    { id: "theory", label: "Теория" },
-    { id: "ctf", label: "CTF" },
-    { id: "about", label: "О проекте" },
-    { id: "team", label: "Команда" },
-  ];
 
   return (
     <>
@@ -72,15 +83,26 @@ const Index: React.FC = () => {
             </svg>
           </button>
 
-          <div className="hidden md:flex gap-6 select-none">
+          {/* Десктопное меню с анимацией underline */}
+          <div className="hidden md:flex gap-6 select-none relative">
             {menuItems.map((item) => (
               <a
                 key={item.id}
                 href={`#${item.id}`}
                 onClick={scrollToId(item.id)}
-                className="text-white hover:text-purple-400 transition-colors duration-300"
+                className={`relative px-2 py-1 text-white hover:text-purple-400 transition-colors duration-300 cursor-pointer ${
+                  activeTab === item.id ? "font-bold" : ""
+                }`}
               >
                 {item.label}
+                {activeTab === item.id && (
+                  <motion.div
+                    layoutId="underline"
+                    className="absolute left-0 bottom-0 h-[3px] bg-purple-500 rounded"
+                    style={{ width: "100%" }}
+                    transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                  />
+                )}
               </a>
             ))}
           </div>
@@ -145,9 +167,7 @@ const Index: React.FC = () => {
       </header>
 
       <main>
-        {/* Герой-блок */}
-        {/* Герой-блок */}
-{/* Блок CTF */}
+        {/* Блок CTF */}
 <section
   id="ctf"
   className="relative overflow-hidden bg-gradient-to-r from-purple-900 via-black to-purple-950"
@@ -205,7 +225,7 @@ const Index: React.FC = () => {
         <img
           src="/assets/about-img.png"
           alt="О приложении Hack CTF"
-          className="w-full max-w-[250px] sm:max-w-[320px] md:max-w-md rounded-lg hover:scale-105 transition-transform duration-300 object-cover shadow-md"
+          className="w-full max-w-[450px] sm:max-w-[320px] md:max-w-md rounded-lg hover:scale-105 transition-transform duration-300 object-cover shadow-md"
         />
       </div>
     </div>
