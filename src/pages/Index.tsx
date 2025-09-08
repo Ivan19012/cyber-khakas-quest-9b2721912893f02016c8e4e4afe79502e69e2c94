@@ -31,7 +31,7 @@ const Index: React.FC = () => {
           window.location.hash = `#${id}`;
         }
         setActiveTab(id);
-      }, 400);
+      }, 600);
     } else {
       // Десктоп
       e.preventDefault();
@@ -225,7 +225,7 @@ const Index: React.FC = () => {
         <img
           src="/assets/about-img.png"
           alt="О приложении Hack CTF"
-          className="w-full max-w-[450px] sm:max-w-[320px] md:max-w-md rounded-lg hover:scale-105 transition-transform duration-300 object-cover shadow-md"
+          className="w-full max-w-[350px] sm:max-w-[300px] md:max-w-md rounded-lg hover:scale-105 transition-transform duration-300 object-cover shadow-md"
         />
       </div>
     </div>
